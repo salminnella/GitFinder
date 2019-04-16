@@ -9,6 +9,8 @@ import com.salmin.gitfinder.network.GitApiWrapper;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
@@ -21,6 +23,7 @@ public class RepoListViewModel extends BaseViewModel {
 	public MutableLiveData<Boolean> errorEvent = new MutableLiveData<>();
 	public MutableLiveData<Integer> showProgress = new MutableLiveData<>();
 
+	@Inject
 	public RepoListViewModel(@NonNull Application application) {
 		super(application);
 		showProgress.setValue(View.GONE);
