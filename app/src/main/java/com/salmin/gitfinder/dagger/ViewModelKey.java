@@ -8,6 +8,11 @@ import java.lang.annotation.Target;
 import androidx.lifecycle.ViewModel;
 import dagger.MapKey;
 
+/**
+ *
+ * Helps to map the ViewModel class so the factory can correctly inject them
+ *
+ */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @MapKey

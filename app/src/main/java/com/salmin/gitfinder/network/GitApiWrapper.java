@@ -10,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GitApiWrapper {
 
+	// TODO may have to convert this to a module and @provides the wrapper
 	private static final String BASE_URL = "https://api.github.com/";
 	private static GitApiWrapper API_WRAPPER;
 	private final GitApiService gitAPI;
