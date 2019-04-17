@@ -10,6 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+/**
+ * dynamically create ViewModels for Activities, that can inject the factory and
+ * retrieve the ViewModel
+ */
 @Singleton
 public class ViewModelFactory implements ViewModelProvider.Factory {
 	private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;

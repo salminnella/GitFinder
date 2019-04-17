@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="repository"
+            type="com.salmin.gitfinder.models.Repository" />
+
+        <variable
+            name="imageAvatar"
+            type="String" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/avatar_items_list"
+            loadImage="@{repository.owner.avatarUrl}"
+            android:layout_width="@dimen/image_width"
+            android:layout_height="@dimen/image_width"
+            android:background="@android:color/white" />
+
+        <TextView
+            android:id="@+id/stars_items_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@{String.format(@string/stars,repository.stargazersCount)}"
+            android:textSize="@dimen/star_text_size"
+            tools:text="2*" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/stars_items_list"
+            android:layout_toEndOf="@+id/avatar_items_list"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{repository.name}"
+                android:textSize="@dimen/star_text_size"
+                tools:text="Name" />
+
+            <TextView
+                android:id="@+id/desc_items_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:text="@{repository.description}"
+                tools:text="Description" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
