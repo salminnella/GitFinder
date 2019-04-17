@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.salmin.gitfinder.view.RepoListViewModel;
 import com.salmin.gitfinder.view.ViewModelFactory;
+import com.salmin.gitfinder.view.adapter.RepoListAdapter;
 
 import javax.inject.Inject;
 
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 	ViewModelFactory viewModelFactory;
 //	private MainActivityBinding binding;
 	private RepoListViewModel repoListViewModel;
-//	private RepoListAdapter repoListAdapter;
+	private RepoListAdapter repoListAdapter;
 
 
 
