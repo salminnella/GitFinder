@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 				if (i == EditorInfo.IME_ACTION_SEARCH) {
 					repoListViewModel.getRepositories(searchQuery.getText().toString());
 					searchQuery.setText("");
+					return true;
 				}
 				return false;
 			}
