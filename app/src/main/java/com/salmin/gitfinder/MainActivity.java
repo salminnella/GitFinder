@@ -1,7 +1,10 @@
 package com.salmin.gitfinder;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.salmin.gitfinder.models.Repository;
@@ -16,6 +19,7 @@ import javax.inject.Inject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.AndroidInjection;
 
@@ -42,17 +46,35 @@ public class MainActivity extends AppCompatActivity {
 
 		initView();
 		initViewModel();
+
+		searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+				if (i == EditorInfo.IME_ACTION_SEARCH) {
+					repoListViewModel.getRepositories(searchQuery.getText().toString());
+					searchQuery.setText("");
+				}
+				return false;
+			}
+		});
 	}
 
 	private void initView() {
 		searchQuery = (EditText) findViewById(R.id.search_edit_text_main);
 		recyclerView = (RecyclerView) findViewById(R.id.repo_list_main);
+		initAdapter();
 
+	}
+
+	private void initAdapter() {
+		repoListAdapter = new RepoListAdapter(this);
+		recyclerView.setAdapter(repoListAdapter);
+		RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+		recyclerView.setLayoutManager(layoutManager);
 	}
 
 	private void initViewModel() {
 		repoListViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoListViewModel.class);
-		repoListViewModel.getRepositories(searchQuery.getText().toString());
 
 		repoListViewModel.organizationRepos.observe(this, new Observer<List<Repository>>() {
 			@Override
