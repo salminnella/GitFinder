@@ -6,7 +6,7 @@
 
         <variable
             name="repository"
-            type="com.salmin.gitfinder.models.Repository" />
+            type="com.salmin.gitfinder.models.RepoResponse" />
 
         <variable
             name="imageAvatar"
