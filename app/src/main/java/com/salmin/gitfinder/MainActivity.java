@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.salmin.gitfinder.models.Repository;
+import com.salmin.gitfinder.models.RepoResponse;
 import com.salmin.gitfinder.view.RepoListViewModel;
 import com.salmin.gitfinder.view.ViewModelFactory;
 import com.salmin.gitfinder.view.adapter.RepoListAdapter;
@@ -77,13 +77,13 @@ public class MainActivity extends AppCompatActivity {
 	private void initViewModel() {
 		repoListViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoListViewModel.class);
 
-		repoListViewModel.organizationRepos.observe(this, new Observer<List<Repository>>() {
+		repoListViewModel.organizationRepos.observe(this, new Observer<List<RepoResponse>>() {
 			@Override
-			public void onChanged(List<Repository> repositories) {
-				if (repositories == null || repositories.size() == 0)
+			public void onChanged(List<RepoResponse> repoResponses) {
+				if (repoResponses == null || repoResponses.size() == 0)
 					Toast.makeText(MainActivity.this, "No Results Found!!", Toast.LENGTH_SHORT).show();
 				else
-					repoListAdapter.setData(repositories);
+					repoListAdapter.setData(repoResponses);
 			}
 		});
 

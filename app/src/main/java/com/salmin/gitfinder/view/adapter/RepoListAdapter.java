@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.salmin.gitfinder.BR;
 import com.salmin.gitfinder.R;
 import com.salmin.gitfinder.databinding.RepoItemsBinding;
-import com.salmin.gitfinder.models.Repository;
+import com.salmin.gitfinder.models.RepoResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHolder> {
 
 	private final LayoutInflater inflater;
-	private final List<Repository> data;
+	private final List<RepoResponse> data;
 
 	public RepoListAdapter(Context context) {
 		inflater = LayoutInflater.from(context);
 		data = new ArrayList<>();
 	}
 
-	public void setData(List<Repository> data) {
+	public void setData(List<RepoResponse> data) {
 		if (data == null || data.size() == 0) {
 			return;
 		}

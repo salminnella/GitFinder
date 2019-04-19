@@ -1,10 +1,10 @@
 package com.salmin.gitfinder.view;
 
 import android.app.Application;
+import android.util.Log;
 import android.view.View;
 
 import com.salmin.gitfinder.models.RepoResponse;
-import com.salmin.gitfinder.models.Repository;
 import com.salmin.gitfinder.network.GitApiWrapper;
 
 import java.util.List;
@@ -19,7 +19,9 @@ import retrofit2.Response;
 
 public class RepoListViewModel extends BaseViewModel {
 
-	public MutableLiveData<List<Repository>> organizationRepos = new MutableLiveData<>();
+	private static final String TAG = "RepoListVM";
+	public MutableLiveData<List<RepoResponse>> organizationRepos = new MutableLiveData<>();
+//	public MutableLiveData<List<Repository>> organizationRepos = new MutableLiveData<>();
 	public MutableLiveData<Boolean> errorEvent = new MutableLiveData<>();
 	public MutableLiveData<Integer> showProgress = new MutableLiveData<>();
 
@@ -35,13 +37,17 @@ public class RepoListViewModel extends BaseViewModel {
 	 * @param query String
 	 */
 	public void getRepositories(String query) {
+		Log.d(TAG, "getRepositories: was called");
 		showProgress.setValue(View.VISIBLE);
-		GitApiWrapper.getInstance().searchForOrganizations(query, new Callback<RepoResponse>() {
+		GitApiWrapper.getInstance().searchForOrganizations(query, new Callback<List<RepoResponse>>() {
 			@Override
-			public void onResponse(Call<RepoResponse> call, Response<RepoResponse> response) {
+			public void onResponse(Call<List<RepoResponse>> call, Response<List<RepoResponse>> response) {
+				Log.d(TAG, "onResponse: " + response.isSuccessful());
 				if (response.isSuccessful()) {
 					assert response.body() != null;
-					organizationRepos.setValue(response.body().items);
+					Log.d(TAG, "name: " + response.body().get(0).name +
+							"stars: " + response.body().get(0).stargazersCount);
+					organizationRepos.setValue(response.body());
 				} else {
 					errorEvent.setValue(true);
 					showProgress.setValue(View.GONE);
@@ -49,7 +55,8 @@ public class RepoListViewModel extends BaseViewModel {
 			}
 
 			@Override
-			public void onFailure(Call<RepoResponse> call, Throwable t) {
+			public void onFailure(Call<List<RepoResponse>> call, Throwable t) {
+				Log.e(TAG, "onFailure: ", t);
 				errorEvent.setValue(true);
 				showProgress.setValue(View.GONE);
 			}

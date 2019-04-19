@@ -2,6 +2,8 @@ package com.salmin.gitfinder.network;
 
 import com.salmin.gitfinder.models.RepoResponse;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -31,8 +33,9 @@ public class GitApiWrapper {
 		gitAPI = build.create(GitApiService.class);
 	}
 
-	public Call<RepoResponse> searchForOrganizations(String query, Callback<RepoResponse> callback) {
-		Call<RepoResponse> call = gitAPI.getRepositories(query, "stars");
+	public Call<List<RepoResponse>> searchForOrganizations(String query, Callback<List<RepoResponse>> callback) {
+//		Call<RepoResponse> call = gitAPI.getRepositories(query, "stars");
+		Call<List<RepoResponse>> call = gitAPI.getOrgRepos(query);
 		call.enqueue(callback);
 
 		return call;
