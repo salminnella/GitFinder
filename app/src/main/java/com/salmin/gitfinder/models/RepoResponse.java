@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class RepoResponse {
 
-//	@SerializedName("items")
-//	public List<Repository> items;
-
-
 	@SerializedName("owner")
 	public RepoResponse.Owner owner;
 

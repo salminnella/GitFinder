@@ -21,7 +21,6 @@ public class RepoListViewModel extends BaseViewModel {
 
 	private static final String TAG = "RepoListVM";
 	public MutableLiveData<List<RepoResponse>> organizationRepos = new MutableLiveData<>();
-//	public MutableLiveData<List<Repository>> organizationRepos = new MutableLiveData<>();
 	public MutableLiveData<Boolean> errorEvent = new MutableLiveData<>();
 	public MutableLiveData<Integer> showProgress = new MutableLiveData<>();
 

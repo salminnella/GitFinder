@@ -34,7 +34,6 @@ public class GitApiWrapper {
 	}
 
 	public Call<List<RepoResponse>> searchForOrganizations(String query, Callback<List<RepoResponse>> callback) {
-//		Call<RepoResponse> call = gitAPI.getRepositories(query, "stars");
 		Call<List<RepoResponse>> call = gitAPI.getOrgRepos(query);
 		call.enqueue(callback);
 
