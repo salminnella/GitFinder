@@ -2,7 +2,9 @@ package com.salmin.gitfinder.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RepoResponse {
+import java.util.Comparator;
+
+public class RepoResponse implements Comparator<RepoResponse> {
 
 	@SerializedName("owner")
 	public RepoResponse.Owner owner;
@@ -19,5 +21,16 @@ public class RepoResponse {
 	public class Owner {
 		@SerializedName("avatar_url")
 		public String avatarUrl;
+	}
+
+	/**
+	 * compares the stars count to sort the returned list of repos from Github api
+	 *
+	 * @param repoResponse RepoResponse
+	 * @return int
+	 */
+	@Override
+	public int compare(RepoResponse repoResponse, RepoResponse t1) {
+		return Integer.parseInt(t1.stargazersCount) - Integer.parseInt(repoResponse.stargazersCount);
 	}
 }

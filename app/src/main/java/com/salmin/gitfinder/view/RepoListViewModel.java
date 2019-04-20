@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.salmin.gitfinder.models.RepoResponse;
-import com.salmin.gitfinder.network.GitApiWrapper;
 
 import java.util.List;
 
@@ -13,9 +12,9 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
+import static com.salmin.gitfinder.network.GitApiWrapper.GitApiCallback;
+import static com.salmin.gitfinder.network.GitApiWrapper.getInstance;
 
 public class RepoListViewModel extends BaseViewModel {
 
@@ -27,7 +26,6 @@ public class RepoListViewModel extends BaseViewModel {
 	@Inject
 	public RepoListViewModel(@NonNull Application application) {
 		super(application);
-		showProgress.setValue(View.GONE);
 	}
 
 	/**
@@ -38,26 +36,19 @@ public class RepoListViewModel extends BaseViewModel {
 	public void getRepositories(String query) {
 		Log.d(TAG, "getRepositories: was called");
 		showProgress.setValue(View.VISIBLE);
-		GitApiWrapper.getInstance().searchForOrganizations(query, new Callback<List<RepoResponse>>() {
+
+
+		getInstance().getTopRepos(query, new GitApiCallback() {
 			@Override
-			public void onResponse(Call<List<RepoResponse>> call, Response<List<RepoResponse>> response) {
-				Log.d(TAG, "onResponse: " + response.isSuccessful());
-				if (response.isSuccessful()) {
-					assert response.body() != null;
-					Log.d(TAG, "name: " + response.body().get(0).name +
-							"stars: " + response.body().get(0).stargazersCount);
-					organizationRepos.setValue(response.body());
-				} else {
-					errorEvent.setValue(true);
-					showProgress.setValue(View.GONE);
-				}
+			public void onResponse(List<RepoResponse> responses) {
+				organizationRepos.postValue(responses);
+				showProgress.postValue(View.GONE);
 			}
 
 			@Override
-			public void onFailure(Call<List<RepoResponse>> call, Throwable t) {
-				Log.e(TAG, "onFailure: ", t);
-				errorEvent.setValue(true);
-				showProgress.setValue(View.GONE);
+			public void onError() {
+				errorEvent.postValue(true);
+				showProgress.postValue(View.GONE);
 			}
 		});
 	}

@@ -2,6 +2,7 @@ package com.salmin.gitfinder.view;
 
 import android.content.Context;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 
@@ -16,6 +17,11 @@ public class ViewBinder {
 	public static void loadImage(ImageView imageView, String url) {
 		Context context = imageView.getContext();
 		Glide.with(context).load(url).into(imageView);
+	}
+
+	@BindingAdapter("hidden")
+	public static void hidden(ProgressBar progressBar, int value) {
+		progressBar.setVisibility(value);
 	}
 
 }
