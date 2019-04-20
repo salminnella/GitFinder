@@ -54,7 +54,6 @@ public class GitApiWrapper {
 	}
 
 	public void getTopRepos(String organization, GitApiCallback callback) {
-
 //		CompositeDisposable compositeDisposable = new CompositeDisposable();
 //		Disposable disposable =
 				gitAPI.getOrgRepos(organization)
@@ -72,8 +71,11 @@ public class GitApiWrapper {
 					@Override
 					public void accept(List<RepoResponse> repoResponses) throws Exception {
 						Log.d(TAG, "accept: subscribe");
-//						repoList = repoResponses;
-						callback.onResponse(repoResponses);
+						List<RepoResponse> list = new ArrayList<>();
+						for (int i = 0; i < 3; i++) {
+							list.add(repoResponses.get(i));
+						}
+						callback.onResponse(list);
 						for (RepoResponse response : repoResponses) {
 							Log.d(TAG, ":::" + response.name + " - " + response.stargazersCount);
 						}
@@ -85,10 +87,6 @@ public class GitApiWrapper {
 						Log.e(TAG, "accept: ",throwable );
 					}
 				});
-
-
-//		return repoList;
-
 	}
 
 

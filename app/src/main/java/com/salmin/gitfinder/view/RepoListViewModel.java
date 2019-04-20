@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.salmin.gitfinder.models.RepoResponse;
-import com.salmin.gitfinder.network.GitApiWrapper;
 
 import java.util.List;
 
@@ -13,6 +12,9 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+
+import static com.salmin.gitfinder.network.GitApiWrapper.GitApiCallback;
+import static com.salmin.gitfinder.network.GitApiWrapper.getInstance;
 
 public class RepoListViewModel extends BaseViewModel {
 
@@ -37,7 +39,7 @@ public class RepoListViewModel extends BaseViewModel {
 		showProgress.setValue(View.VISIBLE);
 
 
-		GitApiWrapper.getInstance().getTopRepos(query, new GitApiWrapper.GitApiCallback() {
+		getInstance().getTopRepos(query, new GitApiCallback() {
 			@Override
 			public void onResponse(List<RepoResponse> responses) {
 				organizationRepos.postValue(responses);
@@ -45,35 +47,9 @@ public class RepoListViewModel extends BaseViewModel {
 
 			@Override
 			public void onError() {
-				errorEvent.setValue(true);
+				errorEvent.postValue(true);
 				showProgress.postValue(View.GONE);
 			}
 		});
-
-
-//		Log.d(TAG, "getRepositories: " + GitApiWrapper.getInstance().getTopRepos(query));
-
-//		GitApiWrapper.getInstance().searchForOrganizations(query, new Callback<List<RepoResponse>>() {
-//			@Override
-//			public void onResponse(Call<List<RepoResponse>> call, Response<List<RepoResponse>> response) {
-//				Log.d(TAG, "onResponse: " + response.isSuccessful());
-//				if (response.isSuccessful()) {
-//					assert response.body() != null;
-//					Log.d(TAG, "name: " + response.body().get(0).name +
-//							"stars: " + response.body().get(0).stargazersCount);
-//					organizationRepos.setValue(response.body());
-//				} else {
-//					errorEvent.setValue(true);
-//					showProgress.setValue(View.GONE);
-//				}
-//			}
-//
-//			@Override
-//			public void onFailure(Call<List<RepoResponse>> call, Throwable t) {
-//				Log.e(TAG, "onFailure: ", t);
-//				errorEvent.setValue(true);
-//				showProgress.setValue(View.GONE);
-//			}
-//		});
 	}
 }

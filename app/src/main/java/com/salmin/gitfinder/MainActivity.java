@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
 	@Inject
 	ViewModelFactory viewModelFactory;
-//	private MainActivityBinding binding;
 	private RepoListViewModel repoListViewModel;
 	private RepoListAdapter repoListAdapter;
 	private EditText searchQuery;
