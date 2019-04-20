@@ -41,7 +41,7 @@ public class RepoListViewModel extends BaseViewModel {
 		organizationRepos.setValue(repos);
 
 
-		Log.d(TAG, "getRepositories: " + GitApiWrapper.getInstance().getTopRepos(query));
+//		Log.d(TAG, "getRepositories: " + GitApiWrapper.getInstance().getTopRepos(query));
 
 //		GitApiWrapper.getInstance().searchForOrganizations(query, new Callback<List<RepoResponse>>() {
 //			@Override

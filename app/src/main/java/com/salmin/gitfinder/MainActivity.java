@@ -1,6 +1,7 @@
 package com.salmin.gitfinder;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -27,6 +28,7 @@ import dagger.android.AndroidInjection;
 
 public class MainActivity extends AppCompatActivity {
 
+	private static final String TAG = "MainActivity";
 
 	@Inject
 	ViewModelFactory viewModelFactory;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 		repoListViewModel.organizationRepos.observe(this, new Observer<List<RepoResponse>>() {
 			@Override
 			public void onChanged(List<RepoResponse> repoResponses) {
+				Log.d(TAG, "onChanged: was called - size = " + repoResponses.size());
 				if (repoResponses == null || repoResponses.size() == 0)
 					Toast.makeText(MainActivity.this, "No Results Found!!", Toast.LENGTH_SHORT).show();
 				else

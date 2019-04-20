@@ -2,7 +2,9 @@ package com.salmin.gitfinder.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RepoResponse implements Comparable<RepoResponse>{
+import java.util.Comparator;
+
+public class RepoResponse implements Comparator<RepoResponse> {
 
 	@SerializedName("owner")
 	public RepoResponse.Owner owner;
@@ -28,8 +30,7 @@ public class RepoResponse implements Comparable<RepoResponse>{
 	 * @return int
 	 */
 	@Override
-	public int compareTo(RepoResponse repoResponse) {
-		int comparedStarCount = Integer.parseInt(repoResponse.stargazersCount);
-		return comparedStarCount - Integer.parseInt(this.stargazersCount);
+	public int compare(RepoResponse repoResponse, RepoResponse t1) {
+		return Integer.parseInt(t1.stargazersCount) - Integer.parseInt(repoResponse.stargazersCount);
 	}
 }

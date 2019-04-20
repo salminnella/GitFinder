@@ -7,8 +7,8 @@ import com.salmin.gitfinder.models.RepoResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -17,9 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GitApiWrapper {
 
 	// TODO may have to convert this to a module and @provides the wrapper
+	private static final String TAG = "GitApitWrapper";
 	private static final String BASE_URL = "https://api.github.com/";
 	private static GitApiWrapper API_WRAPPER;
 	private final GitApiService gitAPI;
+	private List<RepoResponse> repoList = new ArrayList<>();
 
 	public static GitApiWrapper getInstance() {
 		if (API_WRAPPER == null) {
@@ -47,30 +49,36 @@ public class GitApiWrapper {
 
 	public List<RepoResponse> getTopRepos(String organization) {
 
-		List<RepoResponse> list = new ArrayList<>();
-
-		gitAPI.getOrgRepos(organization)
+//		CompositeDisposable compositeDisposable = new CompositeDisposable();
+//		Disposable disposable =
+				gitAPI.getOrgRepos(organization)
 				.subscribeOn(Schedulers.io())
 				.observeOn(Schedulers.newThread())
-				.doOnComplete(new Action() {
+				.flatMapIterable(new Function<List<RepoResponse>, Iterable<RepoResponse>>() {
 					@Override
-					public void run() throws Exception {
-
+					public Iterable<RepoResponse> apply(List<RepoResponse> repoResponses) throws Exception {
+						Log.d(TAG, "flatmap iterable");
+						return repoResponses;
 					}
 				})
-				.sorted()
+				.toSortedList(new RepoResponse())
 				.subscribe(new Consumer<List<RepoResponse>>() {
 					@Override
 					public void accept(List<RepoResponse> repoResponses) throws Exception {
+						Log.d(TAG, "accept: subscribe");
+						repoList = repoResponses;
 						for (RepoResponse response : repoResponses) {
-							Log.d("GitAPIWrapper", "accept: " + response.name);
+							Log.d(TAG, ":::" + response.name + " - " + response.stargazersCount);
 						}
-
-
+					}
+				}, new Consumer<Throwable>() {
+					@Override
+					public void accept(Throwable throwable) throws Exception {
+						Log.e(TAG, "accept: ",throwable );
 					}
 				});
 
-		return list;
+		return repoList;
 
 	}
 
