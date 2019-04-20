@@ -37,8 +37,18 @@ public class RepoListViewModel extends BaseViewModel {
 		showProgress.setValue(View.VISIBLE);
 
 
-		List<RepoResponse> repos = GitApiWrapper.getInstance().getTopRepos(query);
-		organizationRepos.setValue(repos);
+		GitApiWrapper.getInstance().getTopRepos(query, new GitApiWrapper.GitApiCallback() {
+			@Override
+			public void onResponse(List<RepoResponse> responses) {
+				organizationRepos.postValue(responses);
+			}
+
+			@Override
+			public void onError() {
+				errorEvent.setValue(true);
+				showProgress.postValue(View.GONE);
+			}
+		});
 
 
 //		Log.d(TAG, "getRepositories: " + GitApiWrapper.getInstance().getTopRepos(query));

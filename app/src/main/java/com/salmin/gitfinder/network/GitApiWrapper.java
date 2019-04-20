@@ -47,7 +47,13 @@ public class GitApiWrapper {
 //		return call;
 //	}
 
-	public List<RepoResponse> getTopRepos(String organization) {
+	public interface GitApiCallback {
+		void onResponse (List<RepoResponse> responses);
+
+		void onError();
+	}
+
+	public void getTopRepos(String organization, GitApiCallback callback) {
 
 //		CompositeDisposable compositeDisposable = new CompositeDisposable();
 //		Disposable disposable =
@@ -66,7 +72,8 @@ public class GitApiWrapper {
 					@Override
 					public void accept(List<RepoResponse> repoResponses) throws Exception {
 						Log.d(TAG, "accept: subscribe");
-						repoList = repoResponses;
+//						repoList = repoResponses;
+						callback.onResponse(repoResponses);
 						for (RepoResponse response : repoResponses) {
 							Log.d(TAG, ":::" + response.name + " - " + response.stargazersCount);
 						}
@@ -74,11 +81,13 @@ public class GitApiWrapper {
 				}, new Consumer<Throwable>() {
 					@Override
 					public void accept(Throwable throwable) throws Exception {
+						callback.onError();
 						Log.e(TAG, "accept: ",throwable );
 					}
 				});
 
-		return repoList;
+
+//		return repoList;
 
 	}
 
