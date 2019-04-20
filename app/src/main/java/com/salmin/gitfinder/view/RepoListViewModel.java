@@ -13,7 +13,6 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import io.reactivex.Observable;
 
 public class RepoListViewModel extends BaseViewModel {
 
@@ -38,7 +37,9 @@ public class RepoListViewModel extends BaseViewModel {
 		showProgress.setValue(View.VISIBLE);
 
 
-		Observable<List<RepoResponse>> repos = GitApiWrapper.getInstance().getTopRepos(query);
+		List<RepoResponse> repos = GitApiWrapper.getInstance().getTopRepos(query);
+		organizationRepos.setValue(repos);
+
 
 		Log.d(TAG, "getRepositories: " + GitApiWrapper.getInstance().getTopRepos(query));
 

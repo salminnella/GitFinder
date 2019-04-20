@@ -1,10 +1,15 @@
 package com.salmin.gitfinder.network;
 
+import android.util.Log;
+
 import com.salmin.gitfinder.models.RepoResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,8 +45,32 @@ public class GitApiWrapper {
 //		return call;
 //	}
 
-	public Observable<List<RepoResponse>> getTopRepos(String organization) {
-		return gitAPI.getOrgRepos(organization);
+	public List<RepoResponse> getTopRepos(String organization) {
+
+		List<RepoResponse> list = new ArrayList<>();
+
+		gitAPI.getOrgRepos(organization)
+				.subscribeOn(Schedulers.io())
+				.observeOn(Schedulers.newThread())
+				.doOnComplete(new Action() {
+					@Override
+					public void run() throws Exception {
+
+					}
+				})
+				.sorted()
+				.subscribe(new Consumer<List<RepoResponse>>() {
+					@Override
+					public void accept(List<RepoResponse> repoResponses) throws Exception {
+						for (RepoResponse response : repoResponses) {
+							Log.d("GitAPIWrapper", "accept: " + response.name);
+						}
+
+
+					}
+				});
+
+		return list;
 
 	}
 
