@@ -18,6 +18,9 @@ public class RepoResponse implements Comparator<RepoResponse> {
 	@SerializedName("stargazers_count")
 	public String stargazersCount;
 
+	@SerializedName("html_url")
+	public String repoUrl;
+
 	public class Owner {
 		@SerializedName("avatar_url")
 		public String avatarUrl;

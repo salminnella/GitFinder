@@ -1,7 +1,9 @@
 package com.salmin.gitfinder.view.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.salmin.gitfinder.BR;
@@ -53,13 +55,20 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 		return data.size();
 	}
 
-	class ViewHolder extends RecyclerView.ViewHolder {
+	class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 		private final RepoItemsBinding binding;
 
 		public ViewHolder(@NonNull RepoItemsBinding binding) {
 			super(binding.getRoot());
 			this.binding = binding;
+
+			binding.getRoot().setOnClickListener(this);
+		}
+
+		@Override
+		public void onClick(View view) {
+			Log.d("Adapter", "onClick: was called ");
 		}
 	}
 }
