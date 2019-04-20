@@ -4,8 +4,7 @@ import com.salmin.gitfinder.models.RepoResponse;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import io.reactivex.Observable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -29,15 +28,22 @@ public class GitApiWrapper {
 		Retrofit build = new Retrofit.Builder().baseUrl(BASE_URL)
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.addConverterFactory(GsonConverterFactory.create())
+				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.build();
 		gitAPI = build.create(GitApiService.class);
 	}
 
-	public Call<List<RepoResponse>> searchForOrganizations(String query, Callback<List<RepoResponse>> callback) {
-		Call<List<RepoResponse>> call = gitAPI.getOrgRepos(query);
-		call.enqueue(callback);
+//	public Call<List<RepoResponse>> searchForOrganizations(String query, Callback<List<RepoResponse>> callback) {
+//		Call<List<RepoResponse>> call = gitAPI.getOrgRepos(query);
+//		call.enqueue(callback);
+//
+//		return call;
+//	}
 
-		return call;
+	public Observable<List<RepoResponse>> getTopRepos(String organization) {
+		return gitAPI.getOrgRepos(organization);
+
 	}
+
 
 }

@@ -13,9 +13,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
 
 public class RepoListViewModel extends BaseViewModel {
 
@@ -38,27 +36,33 @@ public class RepoListViewModel extends BaseViewModel {
 	public void getRepositories(String query) {
 		Log.d(TAG, "getRepositories: was called");
 		showProgress.setValue(View.VISIBLE);
-		GitApiWrapper.getInstance().searchForOrganizations(query, new Callback<List<RepoResponse>>() {
-			@Override
-			public void onResponse(Call<List<RepoResponse>> call, Response<List<RepoResponse>> response) {
-				Log.d(TAG, "onResponse: " + response.isSuccessful());
-				if (response.isSuccessful()) {
-					assert response.body() != null;
-					Log.d(TAG, "name: " + response.body().get(0).name +
-							"stars: " + response.body().get(0).stargazersCount);
-					organizationRepos.setValue(response.body());
-				} else {
-					errorEvent.setValue(true);
-					showProgress.setValue(View.GONE);
-				}
-			}
 
-			@Override
-			public void onFailure(Call<List<RepoResponse>> call, Throwable t) {
-				Log.e(TAG, "onFailure: ", t);
-				errorEvent.setValue(true);
-				showProgress.setValue(View.GONE);
-			}
-		});
+
+		Observable<List<RepoResponse>> repos = GitApiWrapper.getInstance().getTopRepos(query);
+
+		Log.d(TAG, "getRepositories: " + GitApiWrapper.getInstance().getTopRepos(query));
+
+//		GitApiWrapper.getInstance().searchForOrganizations(query, new Callback<List<RepoResponse>>() {
+//			@Override
+//			public void onResponse(Call<List<RepoResponse>> call, Response<List<RepoResponse>> response) {
+//				Log.d(TAG, "onResponse: " + response.isSuccessful());
+//				if (response.isSuccessful()) {
+//					assert response.body() != null;
+//					Log.d(TAG, "name: " + response.body().get(0).name +
+//							"stars: " + response.body().get(0).stargazersCount);
+//					organizationRepos.setValue(response.body());
+//				} else {
+//					errorEvent.setValue(true);
+//					showProgress.setValue(View.GONE);
+//				}
+//			}
+//
+//			@Override
+//			public void onFailure(Call<List<RepoResponse>> call, Throwable t) {
+//				Log.e(TAG, "onFailure: ", t);
+//				errorEvent.setValue(true);
+//				showProgress.setValue(View.GONE);
+//			}
+//		});
 	}
 }
