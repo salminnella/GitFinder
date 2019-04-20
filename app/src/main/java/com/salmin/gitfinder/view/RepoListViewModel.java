@@ -43,6 +43,7 @@ public class RepoListViewModel extends BaseViewModel {
 			@Override
 			public void onResponse(List<RepoResponse> responses) {
 				organizationRepos.postValue(responses);
+				showProgress.postValue(View.GONE);
 			}
 
 			@Override
