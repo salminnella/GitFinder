@@ -26,7 +26,6 @@ public class RepoListViewModel extends BaseViewModel {
 	@Inject
 	public RepoListViewModel(@NonNull Application application) {
 		super(application);
-		showProgress.setValue(View.GONE);
 	}
 
 	/**
