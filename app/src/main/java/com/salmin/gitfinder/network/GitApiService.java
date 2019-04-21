@@ -8,9 +8,12 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
+/**
+ * API endpoint Get method to retrieve Repositories based on Organization search
+ * Returns an observable list to used with RxJava
+ */
 public interface GitApiService {
 
-	// https://api.github.com/orgs/google/repos?type=all
 	@GET("/orgs/{org}/repos?type=all")
 	Observable<List<RepoResponse>> getOrgRepos(@Path("org") String org);
 }
