@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.salmin.gitfinder.models.RepoResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -14,6 +13,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Wrapper class for the Github API, creates a Retrofit instance
+ * and performs the search for top repositories
+ */
 public class GitApiWrapper {
 
 	// TODO may have to convert this to a module and @provides the wrapper
@@ -58,25 +61,19 @@ public class GitApiWrapper {
 						return repoResponses;
 					}
 				})
-				.toSortedList(new RepoResponse())
+				.sorted(new RepoResponse())
+				.take(3)
+				.toList()
 				.subscribe(new Consumer<List<RepoResponse>>() {
 					@Override
 					public void accept(List<RepoResponse> repoResponses) throws Exception {
-						Log.d(TAG, "accept: subscribe");
-						List<RepoResponse> list = new ArrayList<>();
-						for (int i = 0; i < 3; i++) {
-							list.add(repoResponses.get(i));
-						}
-						callback.onResponse(list);
-						for (RepoResponse response : repoResponses) {
-							Log.d(TAG, ":::" + response.name + " - " + response.stargazersCount);
-						}
+						callback.onResponse(repoResponses);
 					}
 				}, new Consumer<Throwable>() {
 					@Override
 					public void accept(Throwable throwable) throws Exception {
 						callback.onError();
-						Log.e(TAG, "accept: ",throwable );
+						Log.e(TAG, "accept: ", throwable);
 					}
 				});
 	}

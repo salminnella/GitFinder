@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 	private EditText searchQuery;
 	private RecyclerView recyclerView;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		AndroidInjection.inject(this);

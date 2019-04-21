@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Comparator;
 
+/**
+ * Model class to map fields for GitHub repositories
+ */
 public class RepoResponse implements Comparator<RepoResponse> {
 
 	@SerializedName("owner")
@@ -17,6 +20,9 @@ public class RepoResponse implements Comparator<RepoResponse> {
 
 	@SerializedName("stargazers_count")
 	public String stargazersCount;
+
+	@SerializedName("html_url")
+	public String repoUrl;
 
 	public class Owner {
 		@SerializedName("avatar_url")
