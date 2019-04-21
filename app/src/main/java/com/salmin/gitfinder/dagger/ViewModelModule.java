@@ -1,7 +1,7 @@
 package com.salmin.gitfinder.dagger;
 
-import com.salmin.gitfinder.view.RepoListViewModel;
-import com.salmin.gitfinder.view.ViewModelFactory;
+import com.salmin.gitfinder.view.viewmodel.RepoListViewModel;
+import com.salmin.gitfinder.view.viewmodel.ViewModelFactory;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;

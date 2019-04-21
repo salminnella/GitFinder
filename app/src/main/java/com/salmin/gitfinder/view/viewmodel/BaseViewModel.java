@@ -1,4 +1,4 @@
-package com.salmin.gitfinder.view;
+package com.salmin.gitfinder.view.viewmodel;
 
 import android.app.Application;
 
