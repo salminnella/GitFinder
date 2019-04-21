@@ -1,7 +1,7 @@
 package com.salmin.gitfinder.view.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +23,12 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
 	private final LayoutInflater inflater;
 	private final List<RepoResponse> data;
+	private Context context;
 
 	public RepoListAdapter(Context context) {
 		inflater = LayoutInflater.from(context);
 		data = new ArrayList<>();
+		this.context = context;
 	}
 
 	public void setData(List<RepoResponse> data) {
@@ -68,7 +71,13 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
 		@Override
 		public void onClick(View view) {
-			Log.d("Adapter", "onClick: was called ");
+			openRepoInCustomTabs(data.get(getAdapterPosition()).repoUrl);
 		}
+	}
+
+	private void openRepoInCustomTabs(String repoUrl) {
+		CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+		CustomTabsIntent customTabsIntent = builder.build();
+		customTabsIntent.launchUrl(context, Uri.parse(repoUrl));
 	}
 }
