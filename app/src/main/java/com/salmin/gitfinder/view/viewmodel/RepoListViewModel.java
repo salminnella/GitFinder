@@ -18,7 +18,7 @@ import static com.salmin.gitfinder.network.GitApiWrapper.getInstance;
 
 public class RepoListViewModel extends BaseViewModel {
 
-	private static final String TAG = "RepoListVM";
+	private static final String TAG = RepoListViewModel.class.getName();
 	public MutableLiveData<List<RepoResponse>> organizationRepos = new MutableLiveData<>();
 	public MutableLiveData<Boolean> errorEvent = new MutableLiveData<>();
 	public MutableLiveData<Integer> showProgress = new MutableLiveData<>();
@@ -50,5 +50,9 @@ public class RepoListViewModel extends BaseViewModel {
 				errorEvent.postValue(true);
 			}
 		});
+	}
+
+	public void clearDisposable() {
+		getInstance().dispose();
 	}
 }

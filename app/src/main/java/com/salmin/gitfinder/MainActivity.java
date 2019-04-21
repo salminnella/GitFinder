@@ -1,6 +1,7 @@
 package com.salmin.gitfinder;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -73,11 +74,18 @@ public class MainActivity extends AppCompatActivity {
 		repoListViewModel.organizationRepos.observe(this, new Observer<List<RepoResponse>>() {
 			@Override
 			public void onChanged(List<RepoResponse> repoResponses) {
+				Log.d("mainactivity", "onChanged: was called");
 				repoListAdapter.setData(repoResponses);
 			}
 		});
 
 		repoListViewModel.errorEvent.observe(this, aBoolean ->
 				Toast.makeText(MainActivity.this, "No Results Found!!", Toast.LENGTH_SHORT).show());
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		repoListViewModel.clearDisposable();
 	}
 }

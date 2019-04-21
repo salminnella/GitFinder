@@ -10,7 +10,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 
 /**
- * used to provide a map of view models through dagger that is used by the ViewModelFactory class
+ * provides a map of view models that is used by the ViewModelFactory class
  */
 
 @Module
