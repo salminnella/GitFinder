@@ -51,8 +51,4 @@ public class RepoListViewModel extends BaseViewModel {
 			}
 		});
 	}
-
-	public void clearDisposable() {
-		getInstance().dispose();
-	}
 }

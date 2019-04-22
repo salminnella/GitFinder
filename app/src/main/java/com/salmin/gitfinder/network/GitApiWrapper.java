@@ -1,14 +1,11 @@
 package com.salmin.gitfinder.network;
 
-import android.util.Log;
-
 import com.salmin.gitfinder.models.RepoResponse;
 
 import java.util.List;
 
 import dagger.Module;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
@@ -54,8 +51,7 @@ public class GitApiWrapper {
 	}
 
 	public void getTopRepos(String organization, GitApiCallback callback) {
-		compositeDisposable = new CompositeDisposable();
-		Disposable disposable = gitAPI.getOrgRepos(organization)
+		gitAPI.getOrgRepos(organization)
 				.subscribeOn(Schedulers.io())
 				.observeOn(Schedulers.newThread())
 				.flatMapIterable((Function<List<RepoResponse>, Iterable<RepoResponse>>)
@@ -64,11 +60,5 @@ public class GitApiWrapper {
 				.take(3)
 				.toList()
 				.subscribe(callback::onResponse, callback::onError);
-
-		compositeDisposable.add(disposable);
-	}
-
-	public void dispose() {
-		compositeDisposable.dispose();
 	}
 }

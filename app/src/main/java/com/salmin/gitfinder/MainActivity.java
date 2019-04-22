@@ -1,7 +1,6 @@
 package com.salmin.gitfinder;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		initView();
+		initViews();
 		initViewModel();
 
 		searchQuery.setOnEditorActionListener((textView, i, keyEvent) -> {
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 	}
 
-	private void initView() {
+	private void initViews() {
 		searchQuery = (EditText) findViewById(R.id.search_edit_text_main);
 		recyclerView = (RecyclerView) findViewById(R.id.repo_list_main);
 		ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_main);
@@ -80,11 +79,5 @@ public class MainActivity extends AppCompatActivity {
 
 		repoListViewModel.errorEvent.observe(this, aBoolean ->
 				Toast.makeText(MainActivity.this, "No Results Found!!", Toast.LENGTH_SHORT).show());
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		repoListViewModel.clearDisposable();
 	}
 }
