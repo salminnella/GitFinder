@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 		repoListViewModel.organizationRepos.observe(this, new Observer<List<RepoResponse>>() {
 			@Override
 			public void onChanged(List<RepoResponse> repoResponses) {
-				Log.d("mainactivity", "onChanged: was called");
 				repoListAdapter.setData(repoResponses);
 			}
 		});
