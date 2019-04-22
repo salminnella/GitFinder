@@ -2,6 +2,8 @@ package com.salmin.gitfinder.dagger;
 
 import android.app.Application;
 
+import com.salmin.gitfinder.network.GitApiWrapper;
+
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;
@@ -13,7 +15,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
  */
 
 @Component(modules= {
-		/*GitApiWrapper.class*/ //TODO might have to convert this class to a module
+		GitApiWrapper.class,
 		ViewModelModule.class,
 		ActivityModule.class,
 		AndroidSupportInjectionModule.class})
@@ -30,8 +32,5 @@ public interface AppComponent {
 	}
 
 
-	/*
-	 * This is our custom Application class
-	 * */
 	void inject(AppController appController);
 }

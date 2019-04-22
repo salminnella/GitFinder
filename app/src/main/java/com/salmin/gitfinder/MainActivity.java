@@ -7,13 +7,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.salmin.gitfinder.view.RepoListViewModel;
-import com.salmin.gitfinder.view.ViewModelFactory;
+import com.salmin.gitfinder.models.RepoResponse;
 import com.salmin.gitfinder.view.adapter.RepoListAdapter;
+import com.salmin.gitfinder.view.viewmodel.RepoListViewModel;
+import com.salmin.gitfinder.view.viewmodel.ViewModelFactory;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		initView();
+		initViews();
 		initViewModel();
 
 		searchQuery.setOnEditorActionListener((textView, i, keyEvent) -> {
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 	}
 
-	private void initView() {
+	private void initViews() {
 		searchQuery = (EditText) findViewById(R.id.search_edit_text_main);
 		recyclerView = (RecyclerView) findViewById(R.id.repo_list_main);
 		ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_main);
@@ -66,14 +70,14 @@ public class MainActivity extends AppCompatActivity {
 	private void initViewModel() {
 		repoListViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoListViewModel.class);
 
-		repoListViewModel.organizationRepos.observe(this, repoResponses -> {
-			if (repoResponses == null || repoResponses.size() == 0)
-				Toast.makeText(MainActivity.this, "No Results Found!!", Toast.LENGTH_SHORT).show();
-			else
+		repoListViewModel.organizationRepos.observe(this, new Observer<List<RepoResponse>>() {
+			@Override
+			public void onChanged(List<RepoResponse> repoResponses) {
 				repoListAdapter.setData(repoResponses);
+			}
 		});
 
 		repoListViewModel.errorEvent.observe(this, aBoolean ->
-				Toast.makeText(MainActivity.this, "Error!!", Toast.LENGTH_SHORT).show());
+				Toast.makeText(MainActivity.this, "No Results Found!!", Toast.LENGTH_SHORT).show());
 	}
 }

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide;
 import androidx.databinding.BindingAdapter;
 
 /**
- * Binders to use the helper methods from the xml
+ * Binders to use the helper attributes from the xml
  */
 
 public class ViewBinder {

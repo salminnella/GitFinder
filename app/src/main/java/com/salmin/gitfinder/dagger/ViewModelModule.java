@@ -1,7 +1,7 @@
 package com.salmin.gitfinder.dagger;
 
-import com.salmin.gitfinder.view.RepoListViewModel;
-import com.salmin.gitfinder.view.ViewModelFactory;
+import com.salmin.gitfinder.view.viewmodel.RepoListViewModel;
+import com.salmin.gitfinder.view.viewmodel.ViewModelFactory;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,7 +10,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 
 /**
- * used to provide a map of view models through dagger that is used by the ViewModelFactory class
+ * provides a map of view models that is used by the ViewModelFactory class
  */
 
 @Module

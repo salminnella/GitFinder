@@ -1,4 +1,4 @@
-package com.salmin.gitfinder.view;
+package com.salmin.gitfinder.view.viewmodel;
 
 import android.app.Application;
 import android.util.Log;
@@ -18,7 +18,7 @@ import static com.salmin.gitfinder.network.GitApiWrapper.getInstance;
 
 public class RepoListViewModel extends BaseViewModel {
 
-	private static final String TAG = "RepoListVM";
+	private static final String TAG = RepoListViewModel.class.getName();
 	public MutableLiveData<List<RepoResponse>> organizationRepos = new MutableLiveData<>();
 	public MutableLiveData<Boolean> errorEvent = new MutableLiveData<>();
 	public MutableLiveData<Integer> showProgress = new MutableLiveData<>();
@@ -34,21 +34,20 @@ public class RepoListViewModel extends BaseViewModel {
 	 * @param query String
 	 */
 	public void getRepositories(String query) {
-		Log.d(TAG, "getRepositories: was called");
 		showProgress.setValue(View.VISIBLE);
-
 
 		getInstance().getTopRepos(query, new GitApiCallback() {
 			@Override
 			public void onResponse(List<RepoResponse> responses) {
-				organizationRepos.postValue(responses);
 				showProgress.postValue(View.GONE);
+				organizationRepos.postValue(responses);
 			}
 
 			@Override
-			public void onError() {
-				errorEvent.postValue(true);
+			public void onError(Throwable throwable) {
+				Log.e(TAG, "accept: ", throwable);
 				showProgress.postValue(View.GONE);
+				errorEvent.postValue(true);
 			}
 		});
 	}

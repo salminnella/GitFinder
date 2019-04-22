@@ -9,9 +9,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ActivityModule {
 
 	/**
-	 * Generates the Android Injector for the activities
-	 * defined in this class. Allows injection into an activity
-	 * with AndroidInjection.inject(this) in onCreate
+	 * Generates the Android Injector for activities.
 	 *
 	 * @return
 	 */
