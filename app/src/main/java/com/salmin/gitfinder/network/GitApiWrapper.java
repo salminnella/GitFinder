@@ -5,7 +5,6 @@ import com.salmin.gitfinder.models.RepoResponse;
 import java.util.List;
 
 import dagger.Module;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
@@ -22,7 +21,6 @@ public class GitApiWrapper {
 	private static final String BASE_URL = "https://api.github.com/";
 	private static GitApiWrapper API_WRAPPER;
 	private final GitApiService gitAPI;
-	private CompositeDisposable compositeDisposable;
 
 	public static GitApiWrapper getInstance() {
 		if (API_WRAPPER == null) {
